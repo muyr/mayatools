@@ -7,36 +7,79 @@
 
 import maya.cmds as mc
 
+
+###################################################################
+# 获取场景中选中物体们对应的 Reference 文件
+###################################################################
+def getSelectReferenceFile():
+    selectObjs = mc.ls(sl = True)
+    result = []
+    for obj in selectObjs:
+        if mc.referenceQuery(obj, isNodeReferenced = True):
+            if not result.count(mc.referenceQuery(obj, filename = True)):
+                result.append( mc.referenceQuery(obj, filename = True))
+    return result
+
+###################################################################
+# 获取场景中所有的 Reference 文件
+###################################################################
+def getAllReferenceFile():
+    return mc.file(q = True, reference = True)
+
 ###################################################################
 # 删除掉场景中所有的 Reference 文件
 ###################################################################
 def removeAllReferenceFile():
-    referenceFileList = mc.file(q = True, r = True)
-    for obj in referenceFileList:
-        mc.file(obj, rr = True)
+    for obj in getAllReferenceFile():
+        mc.file(obj, removeReference = True)
 
 ###################################################################
 # reload 场景中所有的 Reference 文件
 ###################################################################
 def reloadAllReferenceFile():
-    referenceFileList = mc.file(q = True, r = True)
-    for obj in referenceFileList:
+    for obj in getAllReferenceFile():
         mc.file(obj, loadReference = True)
 
 ###################################################################
 # unload 场景中所有的 Reference 文件
 ###################################################################
 def unloadAllReferenceFile():
-    referenceFileList = mc.file(q = True, r = True)
-    for obj in referenceFileList:
+    for obj in getAllReferenceFile():
         mc.file(obj, unloadReference = True)
 
 ###################################################################
 # import 场景中所有的 Reference 文件
 ###################################################################
 def importAllReferenceFile():
-    referenceFileList = mc.file(q = True, r = True)
-    for obj in referenceFileList:
+    for obj in getAllReferenceFile():
+        mc.file(obj, importReference = True)
+
+###################################################################
+# 删除掉场景中选中的 Reference 文件
+###################################################################
+def removeSelReferenceFile():
+    for obj in getSelectReferenceFile():
+        mc.file(obj, removeReference = True)
+
+###################################################################
+# reload 场景中选中的 Reference 文件
+###################################################################
+def reloadSelReferenceFile():
+    for obj in getSelectReferenceFile():
+        mc.file(obj, loadReference = True)
+
+###################################################################
+# unload 场景中选中的 Reference 文件
+###################################################################
+def unloadSelReferenceFile():
+    for obj in getSelectReferenceFile():
+        mc.file(obj, unloadReference = True)
+
+###################################################################
+# import 场景中选中的 Reference 文件
+###################################################################
+def importSelReferenceFile():
+    for obj in getSelectReferenceFile():
         mc.file(obj, importReference = True)
 
 ###################################################################
