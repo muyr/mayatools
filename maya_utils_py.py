@@ -90,7 +90,7 @@ def importSelReferenceFile():
 def rootOf(obj):
     p = mc.listRelatives(obj, parent = 1)
     if p: 
-        return getRootOf(p[0])
+        return rootOf(p[0])
     else: 
         return obj
 
